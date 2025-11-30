@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Matchmaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #ddd6fe;
+            --accent: #f472b6;
+            --bg-body: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --radius: 20px;
+            --shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.15);
+            --glass: blur(10px);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            /* Space for bottom nav */
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-card);
+            backdrop-filter: var(--glass);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            border: none;
+            background: rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary);
+            transition: transform 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            padding: 6px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            gap: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: transparent;
+            border-radius: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-size: 15px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+            background: white;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .submit-btn:hover::after {
+            opacity: 1;
+        }
+
+        .results {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #8b5cf6, #d946ef);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .match-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #059669;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(5, 150, 105, 0.1);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .result-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ddd6fe 0%, #e9d5ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.1);
+        }
+
+        .result-info {
+            flex: 1;
+        }
+
+        .result-title {
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .result-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .ai-message {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .connect-btn {
+            flex: 1;
+            padding: 14px;
+            background: var(--text-main);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .connect-btn.secondary {
+            background: transparent;
+            border: 2px solid #e2e8f0;
+            color: var(--text-secondary);
+        }
+
+        .connect-btn.secondary:hover {
+            border-color: var(--text-secondary);
+            background: #f1f5f9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--primary);
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1 data-i18n="matchmaker_title">AI Matchmaker</h1>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="setMode('startup')" data-i18n="i_am_startup">Я Стартап</button>
+            <button class="tab" onclick="setMode('specialist')" data-i18n="i_am_specialist">Я Специалист</button>
+        </div>
+
+        <div id="startup-form" class="form-card">
+            <div class="form-group">
+                <label class="form-label" data-i18n="project_desc_label">Описание проекта</label>
+                <textarea class="form-textarea" id="project-desc"
+                    placeholder="Например: Мы делаем AI-платформу для агротеха. Ищем энтузиастов..."
+                    data-i18n="project_desc_placeholder"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="looking_for_label">Кого ищем?</label>
+                <input type="text" class="form-input" id="required-role" placeholder="Например: Senior Python Developer"
+                    data-i18n="looking_for_placeholder">
+            </div>
+            <button class="submit-btn" onclick="findCandidates()" data-i18n="find_talents_btn">Найти таланты ✨</button>
+        </div>
+
+        <div id="specialist-form" class="form-card hidden">
+            <div class="form-group">
+                <label class="form-label" data-i18n="my_skills_label">Мои навыки</label>
+                <textarea class="form-textarea" id="my-skills"
+                    placeholder="Например: Python, Django, ML, 3 года опыта. Умею работать в команде..."
+                    data-i18n="my_skills_placeholder"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="desired_role_label">Желаемая роль</label>
+                <input type="text" class="form-input" id="desired-role" placeholder="Например: Backend Developer"
+                    data-i18n="desired_role_placeholder">
+            </div>
+            <button class="submit-btn" onclick="findStartups()" data-i18n="find_project_btn">Найти проект 🚀</button>
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Initialize translations
+        const lang = localStorage.getItem('language') || 'ru';
+        applyLanguage(lang);
+        const t = translations[lang];
+
+        function setMode(mode) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-card').forEach(f => f.classList.add('hidden'));
+
+            if (mode === 'startup') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('startup-form').classList.remove('hidden');
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('specialist-form').classList.remove('hidden');
+            }
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function findCandidates() {
+            const desc = document.getElementById('project-desc').value;
+            const role = document.getElementById('required-role').value;
+
+            if (!desc || !role) return tg.showAlert(t.fill_all_fields);
+
+            showLoading();
+
+            try {
+                const res = await fetch('/api/match/specialists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ description: desc, role })
+                });
+                const data = await res.json();
+                renderResults(data, 'candidate');
+            } catch (e) {
+                tg.showAlert(t.search_error);
+            }
+        }
+
+        async function findStartups() {
+            const skills = document.getElementById('my-skills').value;
+            const role = document.getElementById('desired-role').value;
+
+            if (!skills || !role) return tg.showAlert(t.fill_all_fields);
+
+            showLoading();
+
+            try {
+                const res = await fetch('/api/match/startups', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skills, role })
+                });
+                const data = await res.json();
+                renderResults(data, 'startup');
+            } catch (e) {
+                tg.showAlert(t.search_error);
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('results').innerHTML = `
+                <div class="loading">
+                    <div style="font-size: 40px; margin-bottom: 20px;">🔮</div>
+                    ${t.ai_analyzing}
+                </div>`;
+        }
+
+        function renderResults(items, type) {
+            const container = document.getElementById('results');
+            container.innerHTML = '';
+
+            if (!items.length) {
+                container.innerHTML = `<div class="loading">${t.nothing_found_sad}</div>`;
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                let name = '';
+                let subtitle = '';
+                let link = '';
+
+                if (type === 'candidate') {
+                    name = item.user.name || `${item.user.first_name} ${item.user.last_name || ''}`;
+                    subtitle = item.user.role || (item.user.username ? `@${item.user.username}` : 'Специалист');
+                    link = item.user.link || (item.user.username ? `https://t.me/${item.user.username}` : null);
+                } else {
+                    name = item.startup.name;
+                    subtitle = item.startup.category;
+                    link = item.startup.website_url;
+                }
+
+                if (name.trim() === 'undefined' || !name) name = 'Кандидат';
+
+                card.innerHTML = `
+                    <div class="match-score">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                        ${item.match_score}% ${t.match_score}
+                    </div>
+                    <div class="result-header">
+                        <div class="result-avatar">${name[0].toUpperCase()}</div>
+                        <div class="result-info">
+                            <div class="result-title">${name}</div>
+                            <div class="result-subtitle">${subtitle}</div>
+                        </div>
+                    </div>
+                    <div class="ai-message">${item.message}</div>
+                    <div class="actions">
+                        ${link ?
+                        `<button class="connect-btn" onclick="window.open('${link}', '_blank')">
+                                ${t.connect}
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>` :
+                        `<button class="connect-btn secondary" onclick="tg.showAlert('${t.contacts_hidden}')">${t.contacts_hidden}</button>`
+                    }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+    <script src="nav.js"></script>
+    <script>
+        createBottomNav('matchmaker');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Биржа - Aqmola Start</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .market-tabs {
+            display: flex;
+            background: white;
+            padding: 4px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .market-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .market-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .market-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 80px;
+        }
+
+        .market-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .market-card:active {
+            transform: scale(0.99);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--bg-secondary);
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .post-tag {
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .tag-ask {
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #ffe4e6;
+        }
+
+        .tag-offer {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #dcfce7;
+        }
+
+        .card-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            white-space: pre-wrap;
+            font-weight: 400;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding-top: 16px;
+            border-top: 1px solid var(--bg-secondary);
+        }
+
+        .contact-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+            transition: transform 0.2s;
+        }
+
+        .contact-btn:active {
+            transform: scale(0.96);
+        }
+
+        .fab-add {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+
+        .fab-add:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2001;
+            display: none;
+            align-items: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .close-btn {
+            background: var(--bg-secondary);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .close-btn:active {
+            transform: scale(0.9);
+            background: #e5e7eb;
+        }
+
+        .type-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .type-option {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid transparent;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .type-option span {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .type-option svg {
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .type-option.selected {
+            background: #f5f3ff;
+            border-color: var(--primary);
+        }
+
+        .type-option.selected span {
+            color: var(--primary);
+        }
+
+        .type-option.selected svg {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .post-input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .post-input {
+            width: 100%;
+            height: 140px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: none;
+            transition: all 0.2s;
+            color: var(--text-main);
+        }
+
+        .post-input:focus {
+            outline: none;
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .submit-post-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-post-btn:active {
+            transform: scale(0.98);
+        }
+
+        .delete-btn {
+            color: #ef4444;
+            background: #fee2e2;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: auto;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 data-i18n="market_header">Биржа</h1>
+            <p class="subtitle" data-i18n="market_subtitle">Живая лента помощи</p>
+        </div>
+
+        <div class="market-tabs">
+            <div class="market-tab active" onclick="filterPosts('all')" data-i18n="tab_all">Все</div>
+            <div class="market-tab" onclick="filterPosts('ask')" data-i18n="tab_ask">Ищу помощь</div>
+            <div class="market-tab" onclick="filterPosts('offer')" data-i18n="tab_offer">Предлагаю</div>
+        </div>
+
+        <div id="marketFeed" class="market-feed">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <div class="fab-add" onclick="openPostModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </div>
+
+    <div id="postModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="create_post_title">Новое объявление</h2>
+                <button class="close-btn" onclick="closePostModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="type-selector">
+                <div class="type-option selected" onclick="selectType('ask')" id="typeAsk">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 8v4"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+                    <span data-i18n="type_ask">Ищу помощь</span>
+                </div>
+                <div class="type-option" onclick="selectType('offer')" id="typeOffer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                        <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path>
+                        <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+                    </svg>
+                    <span data-i18n="type_offer">Предлагаю</span>
+                </div>
+            </div>
+
+            <div class="post-input-wrapper">
+                <textarea class="post-input" id="postContent" data-i18n-placeholder="post_placeholder"
+                    placeholder="Опишите, что вам нужно или чем можете помочь..."></textarea>
+            </div>
+
+            <button class="submit-post-btn" onclick="submitPost()" data-i18n="btn_publish">Опубликовать</button>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="app.js"></script>
+    <script src="nav.js"></script>
+    <script src="js/market.js"></script>
+    <script>createBottomNav('market');</script>
+</body>
+
+</html>

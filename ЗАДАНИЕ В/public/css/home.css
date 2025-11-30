@@ -1,0 +1,397 @@
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    display: none;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 0;
+}
+
+.carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.carousel-indicator.active {
+    background: #7c3aed;
+    width: 24px;
+    border-radius: 4px;
+}
+
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: white;
+}
+
+.feed-title-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.feed-title-section h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1f2937;
+    margin: 0;
+}
+
+.subscriptions-btn {
+    background: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.subscriptions-btn:active {
+    transform: scale(0.95);
+    background: rgba(124, 58, 237, 0.15);
+}
+
+.filter-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f9fafb;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #6b7280;
+}
+
+.filter-btn:active {
+    background: #f3f4f6;
+    transform: scale(0.95);
+}
+
+.news-feed {
+    padding: 0 0 100px;
+}
+
+.news-card {
+    background: white;
+    border-bottom: 8px solid #f9fafb;
+    padding: 16px 24px;
+}
+
+.news-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.news-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.news-author-info {
+    flex: 1;
+}
+
+.news-author-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+.news-time {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.news-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.news-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.news-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.action-group {
+    display: flex;
+    gap: 20px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.action-btn:active {
+    background: #f9fafb;
+}
+
+.action-btn.liked {
+    color: #7c3aed;
+}
+
+.action-btn.disliked {
+    color: #ef4444;
+}
+
+.action-btn.favorited {
+    color: #f59e0b;
+}
+
+.action-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}
+
+.action-btn.liked svg,
+.action-btn.favorited svg {
+    fill: currentColor;
+}
+
+.subscriptions-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.modal-header .close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.category-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.category-desc {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.subscribe-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid #7c3aed;
+    background: white;
+    color: #7c3aed;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.subscribe-btn.subscribed {
+    background: #7c3aed;
+    color: white;
+}
+
+.subscribe-btn:active {
+    transform: scale(0.95);
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.empty-state svg {
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0 0 8px 0;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+/* Share Modal Styles */
+.share-input-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    background: #f9fafb;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.share-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #1f2937;
+    padding: 8px;
+    outline: none;
+    width: 100%;
+}
+
+.copy-btn {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
+    background: #6d28d9;
+}
+
+.copy-btn.copied {
+    background: #10b981;
+}

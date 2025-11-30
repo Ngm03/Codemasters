@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Экосистема - Agro Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bottom-nav.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .service-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: transform 0.2s;
+        }
+
+        .service-card:active {
+            transform: scale(0.98);
+        }
+
+        .service-icon {
+            font-size: 32px;
+            background: rgba(255, 255, 255, 0.5);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .service-content {
+            flex: 1;
+        }
+
+        .service-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--tg-theme-text-color, #000);
+        }
+
+        .service-desc {
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--tg-theme-hint-color, #888);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title" data-i18n="ecosystem_header">🌿 Экосистема</h1>
+            <p class="header-subtitle" data-i18n="ecosystem_subtitle">Все сервисы в одном месте</p>
+        </header>
+
+        <div id="ecosystemGrid" class="ecosystem-grid">
+            <div class="no-results" data-i18n="loading_data">Загрузка данных...</div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/ecosystem.js"></script>
+    <script src="js/bottom-nav.js"></script>
+</body>
+
+</html>

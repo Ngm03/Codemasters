@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Idea Validator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #ddd6fe;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            flex: 1;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 100px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.5;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: white;
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .message.ai strong {
+            color: var(--primary);
+        }
+
+        .message.ai p {
+            margin: 8px 0;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(248, 250, 252, 1) 80%, rgba(248, 250, 252, 0));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .mic-button {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            position: relative;
+        }
+
+        .mic-button:active {
+            transform: scale(0.95);
+        }
+
+        .mic-button.recording {
+            background: #ef4444;
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .mic-button .mic-icon {
+            z-index: 1;
+        }
+
+        .mic-button .recording-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            box-sizing: border-box;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .mic-button.recording .recording-ring {
+            animation: pulse-ring 1.5s infinite;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        .status-container {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .status-pill {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 1;
+            transition: background 0.3s;
+        }
+
+        .status-pill.recording-mode {
+            background: rgba(239, 68, 68, 0.7);
+        }
+
+        .status-pill.error {
+            background: #dc2626;
+        }
+
+        .timer {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+            visibility: hidden;
+        }
+
+        .timer.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .history-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .history-btn:active {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .history-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-modal.active {
+            transform: translateY(0);
+        }
+
+        .history-header {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--text-main);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .history-item {
+            background: var(--bg-body);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .history-item:active {
+            transform: scale(0.98);
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .history-preview {
+            font-size: 14px;
+            color: var(--text-main);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='index.html'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h1 data-i18n="validator_header">Idea Validator AI</h1>
+        <button class="history-btn" onclick="toggleHistory()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <div class="chat-container" id="chat">
+        <div class="message ai" data-i18n="validator_intro">
+            Привет! 👋 Я твой AI-валидатор идей. <br><br>
+            Зажми микрофон внизу и расскажи мне свою идею стартапа. Я сделаю быстрый разбор и честную "прожарку".
+        </div>
+    </div>
+
+    <div class="status-container">
+        <div class="timer" id="timer">00:00</div>
+        <div class="status-pill" id="status" data-i18n="hold_to_record">Удерживайте, чтобы говорить</div>
+    </div>
+
+    <div class="controls">
+        <button class="mic-button" id="micBtn">
+            <div class="mic-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+            </div>
+            <div class="recording-ring"></div>
+        </button>
+    </div>
+
+    <div class="history-modal" id="historyModal">
+        <div class="history-header">
+            <h2 data-i18n="history_title">История идей</h2>
+            <button class="close-btn" onclick="toggleHistory()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="history-list" id="historyList">
+            <div class="loading-spinner" data-i18n="loading">Загрузка...</div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const lang = localStorage.getItem('language') || 'ru';
+        applyLanguage(lang);
+        const t = translations[lang];
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let startTime = 0;
+        let timerInterval;
+        let mimeType = 'audio/webm';
+
+        const btn = document.getElementById('micBtn');
+        const statusEl = document.getElementById('status');
+        const timerEl = document.getElementById('timer');
+
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startRecording();
+        });
+
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            stopRecording();
+        });
+
+        btn.addEventListener('mousedown', (e) => {
+            startRecording();
+        });
+
+        btn.addEventListener('mouseup', (e) => {
+            stopRecording();
+        });
+
+        btn.addEventListener('mouseleave', (e) => {
+            if (isRecording) stopRecording();
+        });
+
+        btn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        async function startRecording() {
+            if (isRecording) return;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                const types = [
+                    'audio/webm;codecs=opus',
+                    'audio/webm',
+                    'audio/mp4',
+                    'audio/ogg;codecs=opus',
+                    'audio/aac'
+                ];
+
+                for (const type of types) {
+                    if (MediaRecorder.isTypeSupported(type)) {
+                        mimeType = type;
+                        break;
+                    }
+                }
+
+                console.log('Using MIME type:', mimeType);
+
+                mediaRecorder = new MediaRecorder(stream, { mimeType });
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = processRecording;
+
+                mediaRecorder.start(100);
+                isRecording = true;
+                startTime = Date.now();
+                audioChunks = [];
+
+                btn.classList.add('recording');
+                statusEl.innerText = t.listening || 'Слушаю...';
+                statusEl.classList.add('recording-mode');
+                timerEl.classList.add('visible');
+
+                startTimer();
+                safeHaptic('medium');
+
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                alert(t.mic_permission_needed || 'Нужен доступ к микрофону');
+            }
+        }
+
+        function stopRecording() {
+            if (!isRecording) return;
+
+            mediaRecorder.stop();
+
+            // ВАЖНО: Останавливаем все треки медиа-потока, чтобы освободить микрофон
+            if (mediaRecorder && mediaRecorder.stream) {
+                mediaRecorder.stream.getTracks().forEach(track => {
+                    track.stop();
+                    console.log('Stopped track:', track.kind);
+                });
+            }
+
+            isRecording = false;
+
+            btn.classList.remove('recording');
+            stopTimer();
+            timerEl.classList.remove('visible');
+            statusEl.classList.remove('recording-mode');
+
+            safeHaptic('light');
+        }
+
+        function processRecording() {
+            const duration = Date.now() - startTime;
+
+            if (duration < 1000) {
+                statusEl.innerText = t.too_short || 'Слишком коротко';
+                statusEl.classList.add('error');
+                setTimeout(() => {
+                    statusEl.innerText = t.hold_to_record || 'Удерживайте, чтобы говорить';
+                    statusEl.classList.remove('error');
+                }, 2000);
+                audioChunks = [];
+                return;
+            }
+
+            statusEl.innerText = t.processing || 'Обработка...';
+            sendAudio();
+        }
+
+        function startTimer() {
+            timerEl.innerText = '00:00';
+            timerInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const seconds = Math.floor(elapsed / 1000);
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${mins}:${secs}`;
+            }, 100);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerEl.innerText = '00:00';
+        }
+
+        function safeHaptic(style) {
+            try {
+                if (tg.isVersionAtLeast('6.1') && tg.HapticFeedback) {
+                    tg.HapticFeedback.impactOccurred(style);
+                }
+            } catch (e) {
+                // Ignore
+            }
+        }
+
+        async function sendAudio() {
+            if (audioChunks.length === 0) return;
+
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            console.log('Sending audio blob size:', audioBlob.size, 'type:', mimeType);
+
+            const formData = new FormData();
+            const ext = mimeType.includes('mp4') ? 'm4a' : (mimeType.includes('aac') ? 'aac' : 'webm');
+            formData.append('audio', audioBlob, `recording.${ext}`);
+
+            const userId = tg.initDataUnsafe?.user?.id || 12345;
+            formData.append('userId', userId);
+
+            try {
+                const response = await fetch('/api/validate-idea', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error.message || data.error);
+
+                addMessage(data.transcription, 'user');
+                addMessage(data.response, 'ai');
+
+                statusEl.innerText = t.hold_to_record || 'Удерживайте, чтобы говорить';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert((t.error_prefix || 'Ошибка: ') + error.message);
+                statusEl.innerText = t.hold_to_record || 'Удерживайте, чтобы говорить';
+            } finally {
+                audioChunks = [];
+            }
+        }
+
+        function addMessage(text, type) {
+            const chat = document.getElementById('chat');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+
+            if (type === 'ai') {
+                msgDiv.innerHTML = marked.parse(text);
+            } else {
+                msgDiv.innerText = text;
+            }
+
+            chat.appendChild(msgDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function toggleHistory() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                loadHistory();
+            }
+        }
+
+        async function loadHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = `<div class="loading-spinner">${t.loading || 'Загрузка...'}</div>`;
+
+            const userId = tg.initDataUnsafe?.user?.id || 12345;
+
+            try {
+                const response = await fetch(`/api/validate-idea/history?userId=${userId}`);
+                const history = await response.json();
+
+                if (history.length === 0) {
+                    list.innerHTML = `<div style="text-align:center; color:var(--text-secondary); padding:20px;">${t.history_empty || 'История пуста'}</div>`;
+                    return;
+                }
+
+                list.innerHTML = history.map(item => `
+                    <div class="history-item" onclick="loadHistoryItem(${item.id})">
+                        <div class="history-date">${new Date(item.created_at).toLocaleDateString()}</div>
+                        <div class="history-preview">${item.transcription.substring(0, 60)}...</div>
+                    </div>
+                `).join('');
+
+                window.historyData = history;
+
+            } catch (error) {
+                list.innerHTML = `<div style="color:red; text-align:center;">${t.error_loading || 'Ошибка загрузки'}</div>`;
+            }
+        }
+
+        function loadHistoryItem(id) {
+            const item = window.historyData.find(i => i.id === id);
+            if (item) {
+                toggleHistory();
+                document.getElementById('chat').innerHTML = '';
+                addMessage(item.transcription, 'user');
+                addMessage(item.response, 'ai');
+            }
+        }
+    </script>
+</body>
+
+</html>

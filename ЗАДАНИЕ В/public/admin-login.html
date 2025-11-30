@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Вход в админ-панель - Aqmola Start</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin-login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1 data-i18n="admin_panel_title">Админ-панель</h1>
+                <p data-i18n="admin_login_subtitle">Вход для модераторов</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username" data-i18n="username_label">Имя пользователя</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" data-i18n="password_label">Пароль</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <div id="errorMessage" class="error-message"></div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span data-i18n="login_btn">Войти</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p data-i18n="admin_footer">Aqmola Start Admin Panel</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/admin-login.js"></script>
+</body>
+
+</html>

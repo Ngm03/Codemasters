@@ -1,0 +1,272 @@
+:root {
+    --fab-primary: #8b5cf6;
+    --fab-primary-dark: #7c3aed;
+    --fab-gradient: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    --fab-bg: rgba(255, 255, 255, 0.95);
+    --fab-text: #1f2937;
+    --fab-text-secondary: #6b7280;
+    --fab-border: rgba(139, 92, 246, 0.2);
+    --fab-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+}
+
+.fab-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--fab-gradient);
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.5);
+}
+
+.fab-btn:active {
+    transform: scale(0.95);
+}
+
+.fab-btn svg {
+    width: 32px;
+    height: 32px;
+    stroke-width: 2.5;
+}
+
+/* Modal Overlay */
+.fab-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fab-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Modal Content */
+.fab-modal-content {
+    background: var(--fab-bg);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 24px;
+    padding: 32px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--fab-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-modal.active .fab-modal-content {
+    transform: translateY(0);
+}
+
+/* Header */
+.fab-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--fab-border);
+}
+
+.fab-modal-title {
+    font-size: 24px;
+    font-weight: 800;
+    background: var(--fab-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.fab-close-btn {
+    background: rgba(139, 92, 246, 0.1);
+    border: none;
+    color: var(--fab-primary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab-close-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Form Elements */
+.fab-form-group {
+    margin-bottom: 20px;
+}
+
+.fab-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fab-text);
+    letter-spacing: 0.3px;
+}
+
+.fab-input,
+.fab-textarea,
+.fab-select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    background: #f3f4f6;
+    color: var(--fab-text);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.fab-input:focus,
+.fab-textarea:focus,
+.fab-select:focus {
+    outline: none;
+    background: white;
+    border-color: var(--fab-primary);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+.fab-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* File Input Styling */
+input[type="file"].fab-input {
+    padding: 10px;
+    background: white;
+    border: 1px dashed var(--fab-primary);
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    margin-right: 16px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--fab-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: rgba(139, 92, 246, 0.2);
+}
+
+/* Submit Button */
+.fab-submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--fab-gradient);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 12px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.fab-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+}
+
+.fab-submit-btn:active {
+    transform: scale(0.98);
+}
+
+.fab-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Scrollbar */
+.fab-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fab-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.fab-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.2);
+    border-radius: 10px;
+}
+
+.fab-modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.4);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fab-bg: rgba(31, 41, 55, 0.95);
+        --fab-text: #f9fafb;
+        --fab-text-secondary: #9ca3af;
+        --fab-border: rgba(139, 92, 246, 0.3);
+    }
+
+    .fab-modal-content {
+        border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .fab-input,
+    .fab-textarea,
+    .fab-select {
+        background: #111827;
+        color: white;
+    }
+
+    .fab-input:focus,
+    .fab-textarea:focus,
+    .fab-select:focus {
+        background: #1f2937;
+    }
+
+    input[type="file"].fab-input {
+        background: #111827;
+    }
+}

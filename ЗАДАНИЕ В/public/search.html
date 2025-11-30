@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Поиск - Agro Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bottom-nav.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--tg-theme-button-color, #2481cc);
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .result-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--tg-theme-text-color, #000);
+        }
+
+        .result-desc {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #888);
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--tg-theme-hint-color, #888);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title" data-i18n="search_header">🔍 Поиск</h1>
+            <p class="header-subtitle" data-i18n="search_subtitle">Найдите нужный сервис</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input"
+                placeholder="Введите запрос (например, 'почва')..." data-i18n="search_placeholder">
+        </div>
+
+        <div id="resultsList" class="results-list">
+            <div class="no-results" data-i18n="start_typing">Начните вводить запрос для поиска</div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/bottom-nav.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: var(--bg-white);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
+}
+
+.stat-card h3 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.stat-card p {
+    font-size: 14px;
+    color: var(--text-gray);
+    font-weight: 600;
+}
+
+.welcome-section {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(167, 139, 250, 0.1));
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.welcome-section h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.welcome-section p {
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
+}

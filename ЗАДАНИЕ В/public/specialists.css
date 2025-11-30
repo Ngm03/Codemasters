@@ -1,0 +1,155 @@
+/* Стили для страницы специалистов */
+
+.specialist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.specialist-name {
+    flex: 1;
+}
+
+.availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.availability-badge.available {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.availability-badge.unavailable {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+}
+
+.availability-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+.specialist-role {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.specialist-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.skill-tag {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--primary-light);
+}
+
+.specialist-rate {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-gray);
+    border-radius: 10px;
+    margin: 12px 0;
+}
+
+.specialist-rate svg {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+}
+
+.specialist-rate strong {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-gray);
+    border-radius: 10px;
+    margin: 12px 0;
+}
+
+.company-info svg {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+}
+
+.company-info span {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.salary-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border-radius: 10px;
+    margin: 12px 0;
+    border-left: 4px solid #10B981;
+}
+
+.salary-info svg {
+    width: 18px;
+    height: 18px;
+    color: #10B981;
+}
+
+.salary-info strong {
+    font-size: 16px;
+    font-weight: 700;
+    color: #059669;
+}
+
+.hh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #D6001C, #B00016);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.vacancy-description {
+    font-size: 14px;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin: 12px 0;
+    padding: 12px;
+    background: var(--bg-gray);
+    border-radius: 8px;
+}

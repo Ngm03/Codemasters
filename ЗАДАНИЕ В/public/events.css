@@ -1,0 +1,128 @@
+/* Стили для страницы мероприятий */
+
+.event-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px var(--shadow);
+}
+
+.event-image {
+    width: 100%;
+    border-radius: 12px;
+    margin: 12px 0;
+    object-fit: cover;
+    max-height: 200px;
+}
+
+.event-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-gray);
+    border-radius: 8px;
+    margin: 12px 0;
+}
+
+.event-date svg {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+}
+
+.event-date strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.event-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-gray);
+    margin: 8px 0;
+}
+
+.event-time svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+}
+
+.event-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-gray);
+    border-radius: 8px;
+    margin: 12px 0;
+}
+
+.event-location svg {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+}
+
+.event-location span {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.event-venue {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-gray);
+    margin: 8px 0;
+}
+
+.event-venue svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+}
+
+.google-events-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #4285F4, #34A853);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.event-cta {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(124, 58, 237, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.short-description {
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -1,0 +1,112 @@
+.header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 20px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    margin-left: -8px;
+    color: #1f2937;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn:active {
+    background: #f3f4f6;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.tabs-container {
+    padding: 0 20px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tabs-container::-webkit-scrollbar {
+    display: none;
+}
+
+.tabs {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 4px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: #f3f4f6;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab.active {
+    background: #7c3aed;
+    color: white;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+.content-area {
+    padding: 0 20px 100px;
+}
+
+.favorite-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 16px;
+    transition: transform 0.2s;
+}
+
+.favorite-card:active {
+    transform: scale(0.98);
+}
+
+.card-image {
+    width: 80px;
+}
+
+.empty-state svg {
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-state-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0 0 8px 0;
+}
+
+.empty-state-desc {
+    font-size: 14px;
+    color: #9ca3af;
+    margin: 0;
+}

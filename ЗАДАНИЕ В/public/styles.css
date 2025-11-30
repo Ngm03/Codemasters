@@ -1,0 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #7C3AED;
+    --primary-dark: #6D28D9;
+    --primary-light: #A78BFA;
+    --bg-white: #FFFFFF;
+    --bg-gray: #F9FAFB;
+    --text-dark: #1F2937;
+    --text-gray: #6B7280;
+    --text-light: #9CA3AF;
+    --border: #E5E7EB;
+    --shadow: rgba(124, 58, 237, 0.1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-gray);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    min-height: 100vh;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 32px 24px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+}
+
+.header p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 1;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-container {
+    padding: 20px 24px;
+    background: var(--bg-white);
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box svg {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: var(--text-gray);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background: var(--bg-gray);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--bg-white);
+    box-shadow: 0 0 0 4px var(--shadow);
+}
+
+.content {
+    padding: 0 24px 100px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.category-card {
+    background: var(--bg-white);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px var(--shadow);
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.category-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.category-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.category-card p {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.card {
+    background: var(--bg-white);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 8px 24px var(--shadow);
+    transform: translateY(-2px);
+}
+
+.badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.card h4 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 10px 0;
+    letter-spacing: -0.3px;
+}
+
+.card p {
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tag {
+    background: var(--bg-gray);
+    color: var(--text-dark);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+}
+
+.tag.primary {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary);
+    border-color: var(--primary-light);
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 8px;
+}
+
+.info-row svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+}
+
+.contact-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px var(--shadow);
+}
+
+.contact-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-state svg {
+    width: 80px;
+    height: 80px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 15px;
+    color: var(--text-gray);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-gray);
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Главная - Aqmola Start</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/fab.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <div class="carousel-slide active">
+                    <img src="/6717b68338138935b9c0c350_6657727a90305ccfc49e2915_Astana-Hub-Logo.png" alt="Slide 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="/6717b68338138935b9c0c350_6657727a90305ccfc49e2915_Astana-Hub-Logo.png" alt="Slide 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="/6717b68338138935b9c0c350_6657727a90305ccfc49e2915_Astana-Hub-Logo.png" alt="Slide 3">
+                </div>
+            </div>
+            <div class="carousel-indicators" id="carouselIndicators"></div>
+        </div>
+
+        <div class="feed-header">
+            <div class="feed-title-section">
+                <h2 data-i18n="feed_title">Лента</h2>
+                <button class="subscriptions-btn" data-i18n="my_subscriptions">Мои подписки</button>
+            </div>
+            <button class="filter-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="news-feed" id="newsFeed"></div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="app.js"></script>
+    <script src="nav.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/fab.js"></script>
+    <script>createBottomNav('home');</script>
+</body>
+
+</html>

@@ -1,0 +1,475 @@
+.news-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: white;
+    border-bottom: 1px solid #f3f4f6;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f9fafb;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1f2937;
+}
+
+.back-btn:active {
+    background: #f3f4f6;
+}
+
+.news-detail-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.news-detail-content {
+    padding: 20px 24px;
+    background: white;
+}
+
+.news-detail-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.news-detail-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.news-detail-author-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+}
+
+.news-detail-time {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.news-detail-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.news-detail-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.news-detail-description {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.news-stats {
+    display: flex;
+    gap: 20px;
+    padding: 16px 24px;
+    background: #f9fafb;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.comments-section {
+    padding: 20px 24px 120px;
+    background: white;
+}
+
+.comments-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.comment-input-wrapper {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.comment-input-wrapper textarea {
+    flex: 1;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: none;
+    max-height: 100px;
+}
+
+.comment-input-wrapper textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+}
+
+.send-comment-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #7c3aed;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    flex-shrink: 0;
+}
+
+.send-comment-btn:active {
+    background: #6d28d9;
+}
+
+.comment-item {
+    margin-bottom: 20px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.comment-author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.comment-text {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.comment-action-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.comment-action-btn:active {
+    background: #f9fafb;
+}
+
+.comment-action-btn.liked {
+    color: #7c3aed;
+}
+
+.comment-menu-btn {
+    margin-left: auto;
+}
+
+.news-detail-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.news-detail-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.news-detail-description {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.news-stats {
+    display: flex;
+    gap: 20px;
+    padding: 16px 24px;
+    background: #f9fafb;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.comments-section {
+    padding: 20px 24px 120px;
+    background: white;
+}
+
+.comments-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.comment-input-wrapper {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.comment-input-wrapper textarea {
+    flex: 1;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: none;
+    max-height: 100px;
+}
+
+.comment-input-wrapper textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+}
+
+.send-comment-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #7c3aed;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    flex-shrink: 0;
+}
+
+.send-comment-btn:active {
+    background: #6d28d9;
+}
+
+.comment-item {
+    margin-bottom: 20px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.comment-author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.comment-text {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.comment-action-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.comment-action-btn:active {
+    background: #f9fafb;
+}
+
+.comment-action-btn.liked {
+    color: #7c3aed;
+}
+
+.comment-menu-btn {
+    margin-left: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+.comment-menu-btn:active {
+    background: #f9fafb;
+}
+
+.reply-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.reply-indicator b {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.reply-indicator button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.reply-indicator button:hover {
+    color: #ef4444;
+}

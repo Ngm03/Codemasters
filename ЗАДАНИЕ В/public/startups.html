@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Стартапы - Aqmola Start</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="startups.css">
+    <link rel="stylesheet" href="css/fab.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width: 28px; height: 28px; color: white;">
+                            <path d="M12 2v20M2 12h20"></path>
+                            <path d="m5 19 14-14"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 data-i18n="startups_header">Стартапы</h1>
+                        <p data-i18n="startups_subheader">Проекты региона</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск стартапов..."
+                    data-i18n="search_startups_placeholder">
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="app.js"></script>
+    <script src="nav.js"></script>
+    <script src="js/favorites-utils.js"></script>
+    <script src="startups.js"></script>
+    <script src="js/fab.js"></script>
+    <script>createBottomNav('startups');</script>
+</body>
+
+</html>

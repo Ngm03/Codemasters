@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Matching</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="css/matching.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1>Smart Matching</h1>
+            <button class="profile-btn" onclick="openProfile()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Loading State -->
+            <div id="loadingState" class="state-view">
+                <div class="spinner"></div>
+                <p>AI подбирает лучшие варианты...</p>
+            </div>
+
+            <!-- Profile Setup Required -->
+            <div id="setupState" class="state-view hidden">
+                <div class="setup-card">
+                    <div class="icon-wrapper">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h2>Настройте профиль</h2>
+                    <p>Чтобы найти идеальных партнёров, расскажите нам о себе</p>
+                    <div class="role-selection">
+                        <button class="role-btn" onclick="selectRole('investor')">
+                            <span class="role-icon">💼</span>
+                            <span class="role-title">Я Инвестор</span>
+                            <span class="role-desc">Ищу перспективные стартапы</span>
+                        </button>
+                        <button class="role-btn" onclick="selectRole('startup')">
+                            <span class="role-icon">🚀</span>
+                            <span class="role-title">Я Стартап</span>
+                            <span class="role-desc">Ищу инвестиции</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matching Interface -->
+            <div id="matchingState" class="state-view hidden">
+                <div class="cards-container" id="cardsContainer">
+                    <!-- Cards will be injected here -->
+                </div>
+
+                <div class="actions-bar">
+                    <button class="action-btn pass" onclick="handleSwipe('left')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <button class="action-btn info" onclick="toggleDetails()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+                    <button class="action-btn like" onclick="handleSwipe('right')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- No Matches State -->
+            <div id="emptyState" class="state-view hidden">
+                <div class="empty-icon">🔍</div>
+                <h3>Пока нет новых совпадений</h3>
+                <p>Мы сообщим, когда появятся новые профили</p>
+                <button class="btn-primary" onclick="location.reload()">Обновить</button>
+            </div>
+        </main>
+
+        <!-- Match Modal -->
+        <div id="matchModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="match-animation">
+                    <div class="avatar user"></div>
+                    <div class="match-badge">It's a Match!</div>
+                    <div class="avatar partner"></div>
+                </div>
+                <h3>Взаимный интерес!</h3>
+                <p>Вы понравились друг другу</p>
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="startChat()">Написать сообщение</button>
+                    <button class="btn-secondary" onclick="closeModal()">Продолжить поиск</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="nav.js"></script>
+    <script src="js/matching.js"></script>
+    <script>createBottomNav('matching');</script>
+</body>
+
+</html>
